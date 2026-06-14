@@ -7,7 +7,7 @@ const DATA_SECTIONS = [
     title: 'Dead Cells: Lavlar, Tuzaklar ve Gözyaşı ⚔️',
     description: 'Şu anki ruh halim: Bir elimde kılıç, diğerinde sağlık iksiri (o da bitti bitecek). Cavern biyomundaki o lanet olası dev kapıyı bulana kadar 50 kere öldüm ama pes etmek yok! Graveyard\'dan geçerken hissettiğim o "acaba bu sefer olacak mı?" gerginliği...',
     color: '#701a75', // Canlı Neon Mor
-    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop', // Aksiyon / Oyun
+    image: '/deadcells.jpeg', // Aksiyon / Oyun
     badge: '☠️ Zorluk: Hücre Kaybı',
     extraComponent: (
       <div className="mt-4 p-4 bg-black/40 rounded-xl border border-red-500/30">
@@ -27,7 +27,7 @@ const DATA_SECTIONS = [
     title: 'İşlemcinin Kalbine Yolculuk ⚡',
     description: 'Sıradan bir oyuncu olmaktan sıkılıp "Bu meret nasıl çalışıyor?" dedim. Mantık kapıları (AND, OR, NOT) ile zihnimde satranç oynuyorum. Transistörlerin o nanosaniyelik dansı, saat döngülerinin (clock cycle) kalp atışı gibi donanıma can vermesi... Kodların metale dönüştüğü o büyülü anı anlamaya çalışıyorum.',
     color: '#064e3b', // Zehir Yeşili / Matrix
-    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?q=80&w=800&auto=format&fit=crop', // İşlemci Anakart
+    image: '/CPU.jpeg', // İşlemci Anakart
     badge: '💻 01000011 01010000 01010101',
     extraComponent: (
       <div className="mt-4 flex items-center gap-4 p-4 bg-black/40 rounded-xl font-mono text-green-400 border border-green-500/30 overflow-hidden relative">
@@ -53,7 +53,7 @@ const DATA_SECTIONS = [
     title: 'Kratos\'un Öfkesi Arka Planda Çalıyor 🪓',
     description: 'Bear McCreary sen ne yaptın! O derin İskandinav koroları, çellonun damarlara işleyen hüznü... Çalışırken, kod yazarken veya sadece boşluğa bakarken arkada epik bir savaşın müziği dönüyor. "BOY!" diye bağırasım geliyor.',
     color: '#9f1239', // Kan Kırmızısı / Epik
-    image: 'https://images.unsplash.com/photo-1614680376573-e36448ce98bb?q=80&w=800&auto=format&fit=crop', // Kulaklık / Müzik
+    image: '/GOW3.jpeg', // Kulaklık / Müzik
     badge: '🎵 Şu An Çalıyor',
     extraComponent: (
       <div className="mt-4 p-4 bg-black/40 rounded-xl border border-red-500/20 flex flex-col gap-3">
@@ -87,7 +87,7 @@ const DATA_SECTIONS = [
     title: 'Oyun Sektörünün Nabzı Bende 🎮',
     description: 'Hangi stüdyo kime satıldı? Yeni motor (engine) güncellemeleri, ertelenen AAA oyunlar, sürpriz indie hitler... Twitter (X) akışım ve haber kaynaklarım tamamen bunlarla dolu. Geliştirici röportajlarını okumak en büyük zevkim.',
     color: '#1e3a8a', // Parlak Okyanus Mavisi
-    image: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=800&auto=format&fit=crop', // Oyun Konsolu / Setup
+    image: '/gaming.jpeg', // Oyun Konsolu / Setup
     badge: '📰 Son Dakika',
     extraComponent: (
       <div className="mt-4 p-3 bg-blue-900/30 rounded-xl border border-blue-500/30 overflow-hidden flex items-center">
