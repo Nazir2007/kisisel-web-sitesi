@@ -102,7 +102,7 @@ const DATA_SECTIONS = [
     title: 'Dead Cells: Lavlar, Tuzaklar ve Gözyaşı ⚔️',
     description: 'Şu anki ruh halim: Bir elimde kılıç, diğerinde sağlık iksiri (o da bitti bitecek). Cavern biyomundaki o lanet olası dev kapıyı bulana kadar 50 kere öldüm ama pes etmek yok! Graveyard\'dan geçerken hissettiğim o "acaba bu sefer olacak mı?" gerginliği...',
     color: '#701a75', // Canlı Neon Mor
-    image: '/deadcells.jpeg', 
+    image: import.meta.env.BASE_URL + '/deadcells.jpeg',
     badge: '☠️ Zorluk: Hücre Kaybı',
     extraComponent: (
       <div className="mt-4 p-4 bg-black/40 rounded-xl border border-red-500/30">
@@ -122,7 +122,7 @@ const DATA_SECTIONS = [
     title: 'İşlemcinin Kalbine Yolculuk ⚡',
     description: 'Sıradan bir oyuncu olmaktan sıkılıp "Bu şaheser nasıl çalışıyor?" dedim. Mantık kapıları (AND, OR, NOT) ile zihnimde satranç oynuyorum. Transistörlerin o nanosaniyelik dansı, saat döngülerinin (clock cycle) kalp atışı gibi donanıma can vermesi... Kodların metale dönüştüğü o büyülü anı anlamaya çalışıyorum.',
     color: '#064e3b', // Zehir Yeşili / Matrix
-    image: '/CPU.jpeg', 
+    image:  import.meta.env.BASE_URL + '/CPU.jpeg', 
     badge: '💻 01000011 01010000 01010101',
     extraComponent: (
       <div className="mt-4 flex items-center gap-4 p-4 bg-black/40 rounded-xl font-mono text-green-400 border border-green-500/30 overflow-hidden relative">
@@ -147,7 +147,7 @@ const DATA_SECTIONS = [
     title: 'Kratos\'un Öfkesi Arka Planda Çalıyor 🪓',
     description: 'Bear McCreary sen ne yaptın! O derin İskandinav koroları, çellonun damarlara işleyen hüznü... Çalışırken, kod yazarken veya sadece boşluğa bakarken arkada epik bir savaşın müziği dönüyor. "BOY!" diye bağırasım geliyor.',
     color: '#9f1239', // Kan Kırmızısı / Epik
-    image: '/GOW3.jpeg', 
+    image: import.meta.env.BASE_URL + '/GOW3.jpeg', 
     badge: '🎵 Şu An Çalıyor',
     extraComponent: (
       <div className="mt-4 p-4 bg-black/40 rounded-xl border border-red-500/20 flex flex-col gap-3">
@@ -180,7 +180,7 @@ const DATA_SECTIONS = [
     title: 'Oyun Sektörünün Nabzı Bende 🎮',
     description: 'Hangi stüdyo kime satıldı? Yeni motor (engine) güncellemeleri, ertelenen AAA oyunlar, sürpriz indie hitler... Twitter (X) akışım ve haber kaynaklarım tamamen bunlarla dolu. Geliştirici röportajlarını okumak en büyük zevkim.',
     color: '#1e3a8a', // Parlak Okyanus Mavisi
-    image: '/gaming.jpeg', 
+    image: import.meta.env.BASE_URL + '/gaming.jpeg',
     badge: '📰 Son Dakika',
     extraComponent: <LiveGamingNews /> // Haberler Bileşeni Buraya Entegre Edildi
   }

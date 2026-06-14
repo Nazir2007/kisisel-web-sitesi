@@ -8,4 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss(), // Tailwind'i doğrudan Vite'e bağladık!
   ],
+  base:'/kisisel-web-sitesi/'
 })
