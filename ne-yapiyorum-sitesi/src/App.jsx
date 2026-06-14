@@ -1,13 +1,108 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Daha canlı renkler, eğlenceli içerikler ve yeni görseller
+// -----------------------------------------------------------
+// 1. GERÇEK API BİLEŞENİ (Daha Büyük ve Belirgin Tasarım)
+// -----------------------------------------------------------
+const LiveGamingNews = () => {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRealNews = async () => {
+      try {
+        const apiKey = import.meta.env.VITE_GNEWS_API_KEY;
+        
+        if (!apiKey) {
+          setNews([{ id: 1, title: "Lütfen .env dosyasına VITE_GNEWS_API_KEY ekleyin!", source: "Sistem Uyarısı", url: "#" }]);
+          setLoading(false);
+          return;
+        }
+
+        const url = `https://gnews.io/api/v4/search?q=gaming OR playstation OR xbox&lang=en&max=3&apikey=${apiKey}`;
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error("Ağ yanıtı başarısız oldu.");
+        }
+        
+        const data = await response.json();
+        
+        if (data.articles) {
+          const formattedNews = data.articles.map((article, index) => ({
+            id: index,
+            title: article.title,
+            source: article.source.name,
+            url: article.url 
+          }));
+          
+          setNews(formattedNews);
+        }
+      } catch (error) {
+        console.error("API'den haber çekilemedi:", error);
+        setNews([
+          { id: 1, title: "Sistem Çevrimdışı: API Bağlantısı Kurulamadı (Kotan dolmuş olabilir)", source: "Sistem Hata Bildirimi", url: "#" }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRealNews();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="mt-6 p-6 bg-blue-900/30 rounded-2xl border border-blue-500/30 flex flex-col items-center justify-center gap-4 shadow-lg h-40">
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <span className="text-blue-300 text-sm animate-pulse font-mono tracking-widest">AĞA BAĞLANILIYOR...</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-6 flex flex-col gap-4 w-full">
+      {news.map((item) => (
+        <a 
+          key={item.id} 
+          href={item.url} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="group relative flex flex-col gap-3 bg-blue-950/40 p-5 rounded-2xl border border-blue-500/30 hover:bg-blue-900/60 hover:border-blue-400 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(59,130,246,0.4)] transition-all duration-300 overflow-hidden"
+        >
+          {/* Üzerine gelince arkada beliren yatay parlama */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
+          
+          {/* Üst Kısım: Kaynak ve İkon */}
+          <div className="flex justify-between items-center relative z-10">
+            <span className="text-blue-200 text-xs font-black tracking-wider uppercase bg-blue-600/30 px-3 py-1 rounded-md border border-blue-500/40 group-hover:bg-blue-500 group-hover:text-white transition-colors">
+              {item.source}
+            </span>
+            <span className="text-blue-400/50 group-hover:text-blue-200 font-bold transition-colors">
+              ↗
+            </span>
+          </div>
+
+          {/* Alt Kısım: Büyük ve Okunaklı Haber Başlığı */}
+          <span className="text-white text-base md:text-lg font-bold leading-snug relative z-10 group-hover:text-blue-100 transition-colors line-clamp-3">
+            {item.title}
+          </span>
+        </a>
+      ))}
+    </div>
+  );
+};
+
+// -----------------------------------------------------------
+// 2. İÇERİK BİLGİLERİ (Görseller ve Konular)
+// -----------------------------------------------------------
 const DATA_SECTIONS = [
   {
     id: 'dead-cells',
     title: 'Dead Cells: Lavlar, Tuzaklar ve Gözyaşı ⚔️',
     description: 'Şu anki ruh halim: Bir elimde kılıç, diğerinde sağlık iksiri (o da bitti bitecek). Cavern biyomundaki o lanet olası dev kapıyı bulana kadar 50 kere öldüm ama pes etmek yok! Graveyard\'dan geçerken hissettiğim o "acaba bu sefer olacak mı?" gerginliği...',
     color: '#701a75', // Canlı Neon Mor
-    image: '/deadcells.jpeg', // Aksiyon / Oyun
+    image: '/deadcells.jpeg', 
     badge: '☠️ Zorluk: Hücre Kaybı',
     extraComponent: (
       <div className="mt-4 p-4 bg-black/40 rounded-xl border border-red-500/30">
@@ -25,13 +120,12 @@ const DATA_SECTIONS = [
   {
     id: 'cpu-architecture',
     title: 'İşlemcinin Kalbine Yolculuk ⚡',
-    description: 'Sıradan bir oyuncu olmaktan sıkılıp "Bu meret nasıl çalışıyor?" dedim. Mantık kapıları (AND, OR, NOT) ile zihnimde satranç oynuyorum. Transistörlerin o nanosaniyelik dansı, saat döngülerinin (clock cycle) kalp atışı gibi donanıma can vermesi... Kodların metale dönüştüğü o büyülü anı anlamaya çalışıyorum.',
+    description: 'Sıradan bir oyuncu olmaktan sıkılıp "Bu şaheser nasıl çalışıyor?" dedim. Mantık kapıları (AND, OR, NOT) ile zihnimde satranç oynuyorum. Transistörlerin o nanosaniyelik dansı, saat döngülerinin (clock cycle) kalp atışı gibi donanıma can vermesi... Kodların metale dönüştüğü o büyülü anı anlamaya çalışıyorum.',
     color: '#064e3b', // Zehir Yeşili / Matrix
-    image: '/CPU.jpeg', // İşlemci Anakart
+    image: '/CPU.jpeg', 
     badge: '💻 01000011 01010000 01010101',
     extraComponent: (
       <div className="mt-4 flex items-center gap-4 p-4 bg-black/40 rounded-xl font-mono text-green-400 border border-green-500/30 overflow-hidden relative">
-        {/* İşlemci atış efekti */}
         <div className="w-12 h-12 bg-green-900/50 rounded flex items-center justify-center border border-green-500 relative">
            <div className="absolute inset-0 bg-green-400 opacity-20 animate-ping rounded"></div>
            <span className="text-2xl">💾</span>
@@ -53,7 +147,7 @@ const DATA_SECTIONS = [
     title: 'Kratos\'un Öfkesi Arka Planda Çalıyor 🪓',
     description: 'Bear McCreary sen ne yaptın! O derin İskandinav koroları, çellonun damarlara işleyen hüznü... Çalışırken, kod yazarken veya sadece boşluğa bakarken arkada epik bir savaşın müziği dönüyor. "BOY!" diye bağırasım geliyor.',
     color: '#9f1239', // Kan Kırmızısı / Epik
-    image: '/GOW3.jpeg', // Kulaklık / Müzik
+    image: '/GOW3.jpeg', 
     badge: '🎵 Şu An Çalıyor',
     extraComponent: (
       <div className="mt-4 p-4 bg-black/40 rounded-xl border border-red-500/20 flex flex-col gap-3">
@@ -66,7 +160,6 @@ const DATA_SECTIONS = [
             ▶️
           </div>
         </div>
-        {/* Sahte Ses Dalgası */}
         <div className="flex items-end gap-1 h-8 mt-2 opacity-70">
            {[...Array(20)].map((_, i) => (
              <div 
@@ -87,25 +180,17 @@ const DATA_SECTIONS = [
     title: 'Oyun Sektörünün Nabzı Bende 🎮',
     description: 'Hangi stüdyo kime satıldı? Yeni motor (engine) güncellemeleri, ertelenen AAA oyunlar, sürpriz indie hitler... Twitter (X) akışım ve haber kaynaklarım tamamen bunlarla dolu. Geliştirici röportajlarını okumak en büyük zevkim.',
     color: '#1e3a8a', // Parlak Okyanus Mavisi
-    image: '/gaming.jpeg', // Oyun Konsolu / Setup
+    image: '/gaming.jpeg', 
     badge: '📰 Son Dakika',
-    extraComponent: (
-      <div className="mt-4 p-3 bg-blue-900/30 rounded-xl border border-blue-500/30 overflow-hidden flex items-center">
-        <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mr-3 whitespace-nowrap z-10 shadow-lg shadow-blue-500/50">
-          FLASH
-        </span>
-        <div className="relative flex overflow-x-hidden group">
-          <div className="animate-[marquee_10s_linear_infinite] whitespace-nowrap text-sm text-blue-200">
-            Yeni nesil konsol dedikoduları sızdırıldı... Bağımsız stüdyolardan sürpriz duyurular geliyor... Yılın oyunu adayları belli olmaya başladı...
-          </div>
-        </div>
-      </div>
-    )
+    extraComponent: <LiveGamingNews /> // Haberler Bileşeni Buraya Entegre Edildi
   }
 ];
 
+// -----------------------------------------------------------
+// 3. ANA UYGULAMA (Görünüm ve Scroll Takibi)
+// -----------------------------------------------------------
 export default function App() {
-  const [bgColor, setBgColor] = useState('#0f172a'); // Varsayılan Başlangıç Rengi
+  const [bgColor, setBgColor] = useState('#0f172a');
   const [activeSection, setActiveSection] = useState('');
   const sectionRefs = useRef([]);
 
@@ -143,25 +228,16 @@ export default function App() {
       className="min-h-screen text-white font-sans transition-colors duration-700 ease-in-out selection:bg-white selection:text-black"
       style={{ backgroundColor: bgColor }}
     >
-      {/* Kaydırma animasyonu için özel CSS (Tailwind config gerektirmesin diye inline ekledim) */}
-      <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(100%); }
-          100% { transform: translateX(-100%); }
-        }
-      `}</style>
-
-      {/* Sağ Taraf Sabit Navigasyon */}
       <nav className="fixed right-4 md:right-8 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-5">
         {DATA_SECTIONS.map((section) => (
           <a
             key={section.id}
             href={`#${section.id}`}
             className="group flex items-center justify-end gap-3"
-            title={section.title}
+            
           >
             <span className={`text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${activeSection === section.id ? 'opacity-100' : ''}`}>
-               {section.title.split(':')[0]} {/* Sadece ilk kısmı göster */}
+               
             </span>
             <div className={`w-3 h-3 md:w-4 md:h-4 rounded-full transition-all duration-500 border-2 border-white/20 ${
               activeSection === section.id 
@@ -172,9 +248,7 @@ export default function App() {
         ))}
       </nav>
 
-      {/* Gelişmiş Hero (Giriş) Alanı */}
       <header className="h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
-        {/* Hareketli Arka Plan Desenleri */}
         <div className="absolute inset-0 opacity-20">
             <div className="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl mix-blend-overlay animate-pulse"></div>
             <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl mix-blend-overlay"></div>
@@ -203,7 +277,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* Dinamik İçerik Bölümleri */}
       <main className="relative z-10 pb-20">
         {DATA_SECTIONS.map((section, index) => (
           <section
@@ -216,7 +289,6 @@ export default function App() {
               activeSection === section.id ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-10'
             }`}>
               
-              {/* Sol Taraf: Metin ve Eğlenceli İçerikler */}
               <div className={`space-y-6 order-2 ${index % 2 === 0 ? 'md:order-1' : 'md:order-2'}`}>
                 <div className="inline-block">
                   <span className="text-sm font-bold bg-white text-black px-4 py-1.5 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.4)]">
@@ -230,15 +302,12 @@ export default function App() {
                   {section.description}
                 </p>
                 
-                {/* Her konuya özel eğlenceli ekstra içerik */}
                 {section.extraComponent}
 
               </div>
 
-              {/* Sağ Taraf: Glassmorphism Kartlı Görsel */}
               <div className={`order-1 flex justify-center ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
                 <div className="relative group w-full max-w-lg">
-                  {/* Kartın arkasındaki renkli parlama efekti */}
                   <div className="absolute -inset-1 bg-gradient-to-r from-white/20 to-white/0 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                   
                   <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-white/20 bg-black/40 shadow-2xl backdrop-blur-sm p-2">
@@ -248,7 +317,6 @@ export default function App() {
                       className="w-full h-full object-cover rounded-2xl transform transition-transform duration-1000 group-hover:scale-105"
                       loading="lazy"
                     />
-                    {/* Görselin üzerine hafif bir vignette/gölge */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none rounded-2xl"></div>
                   </div>
                 </div>
@@ -258,7 +326,6 @@ export default function App() {
           </section>
         ))}
       </main>
-
     </div>
   );
 }
