@@ -1011,13 +1011,17 @@ function NewsRadar() {
       setLoadingNews(true);
       setNewsError("");
 
-      try {
-        const url = new URL("https://gnews.io/api/v4/search");
-        url.searchParams.set("q", "gaming OR video games OR game development OR playstation OR xbox");
-        url.searchParams.set("lang", "en");
-        url.searchParams.set("max", "8");
-        url.searchParams.set("apikey", apiKey);
+ try {
+        // 1. URL'yi temiz bir şekilde başlatıyoruz
+        const url = new URL("https://newsdata.io/api/1/news");
+        
+        // 2. Parametreleri düzgünce ekliyoruz
+        url.searchParams.set("q", "gaming");
+        url.searchParams.set("language", "en"); // Newsdata.io 'lang' değil 'language' kullanır
+        url.searchParams.set("size", "8");
+        url.searchParams.set("apikey", apiKey); // .env dosyasından gelen GERÇEK değişkeni kullanıyoruz
 
+        // 3. İsteği gönderiyoruz
         const response = await fetch(url, { signal: controller.signal });
 
         if (!response.ok) {
@@ -1025,14 +1029,18 @@ function NewsRadar() {
         }
 
         const data = await response.json();
-        const fetchedNews = (data.articles || []).map((article, index) => ({
-          id: article.url || `live-news-${index}`,
-          tag: article.source?.name || "Haber",
+        
+        // 4. Veriyi işliyoruz
+        const newsArray = data.results || data.articles || [];
+
+        const fetchedNews = newsArray.map((article, index) => ({
+          id: article.article_id || article.url || `live-news-${index}`,
+          tag: article.source_id || article.source?.name || "Haber",
           title: article.title || "Başlıksız haber",
           description: article.description || "",
-          source: article.source?.name || "GNews",
-          url: article.url || "",
-          publishedAt: article.publishedAt || "",
+          source: article.source_id || article.source?.name || "GNews",
+          url: article.link || article.url || "",
+          publishedAt: article.pubDate || article.publishedAt || "",
         }));
 
         if (fetchedNews.length === 0) {
@@ -1041,11 +1049,13 @@ function NewsRadar() {
 
         setNewsItems(fetchedNews);
         setTag("Tümü");
+
       } catch (error) {
         if (error.name === "AbortError") return;
 
         setNewsItems([]);
         setNewsError("Gerçek haberler çekilemedi. API limiti, bağlantı veya anahtar sorunu olabilir.");
+        
       } finally {
         setLoadingNews(false);
       }
