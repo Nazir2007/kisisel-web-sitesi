@@ -1,2 +1,2 @@
-# ki-isel-web-sitesi
+# kisisel-web-sitesi
 Bu repositorye son zamanlarda ne yaptığım ile alakalı bir web sitesini tutuyorum
